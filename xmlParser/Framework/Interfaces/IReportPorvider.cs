@@ -8,5 +8,7 @@ namespace xmlParser.Framework.Interfaces
 	public interface IReportPorvider
 	{
 		void Write(IReadOnlyList<CountryStatisticCounter> counters);
+
+		ReportData<T> Data;
 	}
 }
