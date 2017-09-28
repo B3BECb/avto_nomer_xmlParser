@@ -12,7 +12,7 @@ namespace xmlParser.Framework.Writers
 	{
 		private readonly IReportPorvider _provider;
 
-		public List<CountryStatisticCounter> Counters { get; set; }
+		public List<IDataStorage> Storages { get; set; }
 
 		/// <summary>Создать и инициализировать писателя отчёта.</summary>
 		/// <param name="provider">Провайдер отчёта <see cref="IReportPorvider"/>.</param>
@@ -21,13 +21,13 @@ namespace xmlParser.Framework.Writers
 		{
 			_provider = provider ?? throw new Exception(nameof(provider) + " is null");
 
-			Counters = new List<CountryStatisticCounter>();
+			Storages = new List<IDataStorage>();
 		}
 
 		/// <summary>Сформировать отчёт.</summary>
 		public void Write()
 		{
-			_provider.Write(Counters);
+			_provider.Write(Storages);
 		}
 	}
 }

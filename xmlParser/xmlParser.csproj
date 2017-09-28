@@ -44,12 +44,15 @@
   <ItemGroup>
     <Compile Include="DataProcessor.cs" />
     <Compile Include="Framework\DataProcessors\CountryStatisticCounter.cs" />
-    <Compile Include="Framework\Entities\Plate.cs" />
     <Compile Include="Framework\DataProcessors\ImageLoader.cs" />
-    <Compile Include="Framework\Entities\ReportData.cs" />
+    <Compile Include="Framework\Entities\CountryReportData.cs" />
+    <Compile Include="Framework\Entities\PlateInfo.cs" />
+    <Compile Include="Framework\Entities\ReportText.cs" />
     <Compile Include="Framework\Interfaces\IDataProcessor.cs" />
+    <Compile Include="Framework\Interfaces\IDataStorage.cs" />
     <Compile Include="Framework\Interfaces\IReportPorvider.cs" />
     <Compile Include="Framework\Providers\ConsoleReportProvider.cs" />
+    <Compile Include="Framework\Providers\CsvReportProvider.cs" />
     <Compile Include="Framework\Writers\ReportWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

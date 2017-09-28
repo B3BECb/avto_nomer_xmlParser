@@ -1,9 +1,5 @@
 ﻿using System;
 
-using xmlParser.Framework.DataProcessors;
-using xmlParser.Framework.Providers;
-using xmlParser.Framework.Writers;
-
 namespace xmlParser
 {
 	class Program
@@ -17,10 +13,7 @@ namespace xmlParser
 
 			new DataProcessor().ProcessData(path, imagePath);
 
-			//var csvProvider = new CsvReportProvider();
-			//new ReportWriter(csvProvider, areaCounter).Write();
-			//Console.WriteLine(Environment.NewLine + "File Report.csv saved in " + csvProvider.Folder);
-						
+			Console.WriteLine("Done.");
 			Console.ReadKey();
 		}
 	}

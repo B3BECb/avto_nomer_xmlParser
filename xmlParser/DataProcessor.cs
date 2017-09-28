@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
 using xmlParser.Framework.DataProcessors;
-using xmlParser.Framework.Interfaces;
+using xmlParser.Framework.Entities;
 using xmlParser.Framework.Providers;
 using xmlParser.Framework.Writers;
 
@@ -39,28 +40,32 @@ namespace xmlParser
 				Console.WriteLine("Reading file: " + file);
 
 				string xmlString = File.ReadAllText(file);
-			
+
 				var xdoc = XDocument.Load(new StringReader(xmlString));
-				
+
 				var xmlList = xdoc.Descendants("plate");
 
+				var dataStorage = new CountryReportData();
+
 				tasksList.Add(Task.Run(() =>
-				 {
-					 var countryStatisticCounter = new CountryStatisticCounter(imagePath);
+				{
+					var countryStatisticCounter = new CountryStatisticCounter(imagePath, dataStorage);
 
-					 countryStatisticCounter.Process(xmlList);
+					countryStatisticCounter.Process(xmlList);
 
-					 _reportWriter.Counters.Add(countryStatisticCounter);
+					_reportWriter.Storages.Add(dataStorage);
 
-					 Console.ForegroundColor = ConsoleColor.Green;
-					 Console.WriteLine(file + " done.");
-					 Console.ResetColor();
+					Console.ForegroundColor = ConsoleColor.Green;
+					Console.WriteLine(file + " done.");
+					Console.ResetColor();
 
-				 }));
+				}));
 			}
 
 			Task.WaitAll(tasksList.ToArray());
 			_reportWriter.Write();
+
+			new ReportWriter(new CsvReportProvider()) { Storages = _reportWriter.Storages }.Write();
 		}
 	}
 }

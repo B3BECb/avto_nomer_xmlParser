@@ -4,22 +4,27 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 
 using xmlParser.Framework.Interfaces;
+using xmlParser.Framework.Entities;
 
 namespace xmlParser.Framework.DataProcessors
 {
 	/// <summary>Реализует интерфейс <see cref="IDataProcessor"/>.</summary>
 	public class CountryStatisticCounter : IDataProcessor
 	{
-		/// <summary>Всего номеров прочитано.</summary>
-		public int TotalPlatesReaded { get; private set; }
+		public CountryReportData DataStorage { get; }
 
 		private readonly string _imageStorageName;
 
 		private readonly ImageLoader _imageLoader;
 
-		public CountryStatisticCounter(string imageStorageName)
+		public CountryStatisticCounter(string imageStorageName, IDataStorage dataStorage)
 		{
 			_imageStorageName = imageStorageName;
+
+			if(!(dataStorage is CountryReportData))
+				throw new ArgumentException("IDataStorage is not ReportData");
+
+			DataStorage = dataStorage as CountryReportData;
 
 			_imageLoader = new ImageLoader();
 		}
@@ -28,7 +33,7 @@ namespace xmlParser.Framework.DataProcessors
 		{
 			Console.WriteLine();
 
-			TotalPlatesReaded += xmlList.Count();
+			DataStorage.TotalPlatesReaded = xmlList.Count();
 			
 			foreach(var plate in xmlList)
 			{
@@ -73,6 +78,11 @@ namespace xmlParser.Framework.DataProcessors
 			var splitedPhotoUrl = photo.Split('/');
 			var photoId = splitedPhotoUrl[splitedPhotoUrl.Length - 1].Split('.')[0];
 
+			if(string.IsNullOrWhiteSpace(DataStorage.StorageName))
+				DataStorage.StorageName = country;
+
+			DataStorage.AnalizeTemplate(nomer);
+
 			Console.WriteLine("Car foto " + photo);
 			_imageLoader.LoadImage(photo, $@"car{photoId}.jpg", _imageStorageName + "\\" + country);
 			Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -80,6 +90,6 @@ namespace xmlParser.Framework.DataProcessors
 			Console.WriteLine("Car renderedPlate " + informer);
 			_imageLoader.LoadImage(informer, $@"car{photoId}Plate.png", _imageStorageName + "\\" + country);
 			Console.ForegroundColor = ConsoleColor.DarkGray;
-		}
+		}		
 	}
 }

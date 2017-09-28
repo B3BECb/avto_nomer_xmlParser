@@ -11,28 +11,31 @@ namespace xmlParser.Framework.Providers
 	{
 		/// <summary>Сформировать отчёт.</summary>
 		/// <param name="counter">Данные отчёта.</param>
-		public void Write(IReadOnlyList<CountryStatisticCounter> counters)
+		public void Write(IReadOnlyList<IDataStorage> storages)
 		{
 			Console.ForegroundColor = ConsoleColor.Magenta;
 
 			Console.WriteLine();
-			Console.WriteLine("Countries total: " + counters.Count);
-
-			Console.ForegroundColor = ConsoleColor.DarkYellow;
-
-			foreach(var counter in counters)
-			{
-				Console.WriteLine();
-				Console.ForegroundColor = ConsoleColor.Cyan;
-				Console.WriteLine("Total plates: " + counter.TotalPlatesReaded);
-				//Console.ForegroundColor = ConsoleColor.DarkYellow;
-				//foreach(var tag in tagGroup)
-				//{
-				//	Console.WriteLine(tag.DisplayName + ": " + tag.Count);
-				//}
-			}
-
+			Console.WriteLine("Countries total: " + storages.Count);
+			Console.WriteLine();
+			
 			Console.ResetColor();
+
+			foreach(var storage in storages)
+			{
+				var strorageReport = storage.GetStorageText();
+				foreach(var text in strorageReport)
+				{
+					Console.ForegroundColor = text.TextColor;
+					if(text.NewLine)
+						Console.WriteLine();
+					else
+						Console.WriteLine(text);
+					Console.ResetColor();
+				}
+
+				Console.WriteLine();
+			}
 		}
 	}
 }
