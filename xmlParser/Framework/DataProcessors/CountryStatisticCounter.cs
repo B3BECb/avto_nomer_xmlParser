@@ -17,6 +17,8 @@ namespace xmlParser.Framework.DataProcessors
 
 		private readonly ImageLoader _imageLoader;
 
+		private int _currentImage;
+
 		public CountryStatisticCounter(string imageStorageName, IDataStorage dataStorage)
 		{
 			_imageStorageName = imageStorageName;
@@ -89,6 +91,10 @@ namespace xmlParser.Framework.DataProcessors
 
 			Console.WriteLine("Car renderedPlate " + informer);
 			_imageLoader.LoadImage(informer, $@"car{photoId}Plate.png", _imageStorageName + "\\" + country);
+			Console.ForegroundColor = ConsoleColor.DarkGray;
+
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.WriteLine($@"-----------> Country: {country} -------- Loaded: {++_currentImage}/{DataStorage.TotalPlatesReaded} <-----------");
 			Console.ForegroundColor = ConsoleColor.DarkGray;
 		}		
 	}

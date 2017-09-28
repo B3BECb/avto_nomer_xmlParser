@@ -17,7 +17,7 @@ namespace xmlParser.Framework.Entities
 
 		public void AnalizeTemplate(string template)
 		{
-			var plateMask = new Regex(@"[^\d^\s]").Replace(template.ToLower(), "X");
+			var plateMask = new Regex(@"[^\d\s-.·]").Replace(template.ToLower(), "X");
 			plateMask = new Regex(@"[\d]").Replace(plateMask, "9");
 
 			if(!Plates.ContainsKey(plateMask))

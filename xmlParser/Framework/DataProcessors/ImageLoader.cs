@@ -16,10 +16,10 @@ namespace xmlParser.Framework.DataProcessors
 			try
 			{
 
-				//using(var client = new WebClient())
-				//{
-				//	client.DownloadFile(imageUri, direcoryName + "\\" + fileName);
-				//}
+				using(var client = new WebClient())
+				{
+					client.DownloadFile(imageUri, direcoryName + "\\" + fileName);
+				}
 			}
 			catch(Exception exc)
 			{

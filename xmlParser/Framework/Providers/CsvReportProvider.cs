@@ -10,25 +10,27 @@ namespace xmlParser.Framework.Providers
 	{
 		public void Write(IReadOnlyList<IDataStorage> storages)
 		{
-			var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\avtoNomer\\XmlParser\\";
 
-			if(!Directory.Exists(path))
+			foreach(var storage in storages)
 			{
-				Directory.CreateDirectory(path);
-			}
+				var path = $"imageStorage\\{storage.StorageName}\\";
 
-			try
-			{
-				foreach(var storage in storages)
+				if(!Directory.Exists(path))
 				{
-					var file = path + storage.StorageName + "Statistic.csv";
+					Directory.CreateDirectory(path);
+				}
+
+				var file = path + "Statistic.csv";
+
+				try
+				{
 					using(StreamWriter sw = new StreamWriter(file, false, Encoding.GetEncoding("Windows-1251")))
 					{
-						sw.WriteLine($"\"Countries total\";\"{storages.Count}\"");
+						sw.WriteLine($"Countries total,{storages.Count}");
 						sw.WriteLine();
 
 
-						var strorageReport = storage.GetStorageText("\"{0}\";\"{1}\"");
+						var strorageReport = storage.GetStorageText("{0},{1}");
 						foreach(var text in strorageReport)
 						{
 							if(text.NewLine)
@@ -40,12 +42,12 @@ namespace xmlParser.Framework.Providers
 						sw.WriteLine();
 					}
 				}
-			}
-			catch(Exception exc)
-			{
-				using(var sw = File.AppendText(path + "Error.log"))
+				catch(Exception exc)
 				{
-					sw.WriteLine(exc);
+					using(var sw = File.AppendText(path + "Error.log"))
+					{
+						sw.WriteLine(exc);
+					}
 				}
 			}
 		}
