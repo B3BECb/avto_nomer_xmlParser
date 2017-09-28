@@ -9,7 +9,7 @@ namespace xmlParser
 			var path = @"storage";
 			var imagePath = @"imageStorage";
 			
-			Console.WriteLine("Data path is " + path);
+			Console.WriteLine("Data path is: " + path);
 
 			new DataProcessor().ProcessData(path, imagePath);
 

@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using xmlParser.Framework.DataProcessors;
+
 using xmlParser.Framework.Interfaces;
 
 namespace xmlParser.Framework.Writers
 {
+	/// <summary>Писатель отчёта.</summary>
 	class ReportWriter
 	{
-		private readonly IReportPorvider _provider;
-
+		/// <summary>Хранилища писателя.</summary>
 		public List<IDataStorage> Storages { get; set; }
+
+		private readonly IReportPorvider _provider;
 
 		/// <summary>Создать и инициализировать писателя отчёта.</summary>
 		/// <param name="provider">Провайдер отчёта <see cref="IReportPorvider"/>.</param>

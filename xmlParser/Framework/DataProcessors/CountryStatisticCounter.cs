@@ -11,7 +11,14 @@ namespace xmlParser.Framework.DataProcessors
 	/// <summary>Реализует интерфейс <see cref="IDataProcessor"/>.</summary>
 	public class CountryStatisticCounter : IDataProcessor
 	{
+		#region Properties
+
+		/// <summary>Хранилище данных.</summary>
 		public CountryReportData DataStorage { get; }
+
+		#endregion
+
+		#region Data
 
 		private readonly string _imageStorageName;
 
@@ -19,6 +26,13 @@ namespace xmlParser.Framework.DataProcessors
 
 		private int _currentImage;
 
+		#endregion
+
+		#region .ctor
+
+		/// <summary>Инициализирует и создаёт <see cref="CountryStatisticCounter"/>.</summary>
+		/// <param name="imageStorageName">Путь к хранилищу изображений.</param>
+		/// <param name="dataStorage">Хранилище данных.</param>
 		public CountryStatisticCounter(string imageStorageName, IDataStorage dataStorage)
 		{
 			_imageStorageName = imageStorageName;
@@ -31,20 +45,9 @@ namespace xmlParser.Framework.DataProcessors
 			_imageLoader = new ImageLoader();
 		}
 
-		public void Process(IEnumerable<XElement> xmlList)
-		{
-			Console.WriteLine();
+		#endregion
 
-			DataStorage.TotalPlatesReaded = xmlList.Count();
-			
-			foreach(var plate in xmlList)
-			{
-				Console.ForegroundColor = ConsoleColor.DarkGray;
-				ReadInfo(plate);				
-				Console.WriteLine();
-			}
-
-		}
+		#region Methods
 
 		private void ReadInfo(XElement plate)
 		{
@@ -97,5 +100,26 @@ namespace xmlParser.Framework.DataProcessors
 			Console.WriteLine($@"-----------> Country: {country} -------- Loaded: {++_currentImage}/{DataStorage.TotalPlatesReaded} <-----------");
 			Console.ForegroundColor = ConsoleColor.DarkGray;
 		}		
+
+		#endregion
+
+		#region IDataProcessor implementation
+
+		public void Process(IEnumerable<XElement> xmlList)
+		{
+			Console.WriteLine();
+
+			DataStorage.TotalPlatesReaded = xmlList.Count();
+			
+			foreach(var plate in xmlList)
+			{
+				Console.ForegroundColor = ConsoleColor.DarkGray;
+				ReadInfo(plate);				
+				Console.WriteLine();
+			}
+
+		}
+
+		#endregion
 	}
 }

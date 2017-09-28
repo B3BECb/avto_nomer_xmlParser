@@ -1,13 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
+
 using xmlParser.Framework.Interfaces;
 
 namespace xmlParser.Framework.Providers
 {
+	/// <summary>Провайдер отчёта в csv файл.</summary>
 	class CsvReportProvider : IReportPorvider
 	{
+		/// <summary>Сформировать отчёт.</summary>
+		/// <param name="counter">Данные отчёта.</param>
 		public void Write(IReadOnlyList<IDataStorage> storages)
 		{
 
